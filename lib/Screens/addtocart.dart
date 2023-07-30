@@ -126,7 +126,7 @@ class _AddtocartCardState extends ConsumerState<AddtocartCard> {
                             data!.title.toString(),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.w400),
                           ),
                         ),
@@ -135,7 +135,7 @@ class _AddtocartCardState extends ConsumerState<AddtocartCard> {
                         ),
                         Text(
                           "₹ ${data!.price.toString()}",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w400),
                         ),
                         const SizedBox(

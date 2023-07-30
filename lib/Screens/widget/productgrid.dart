@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart';
+import 'package:testassignment/API/filterproduct.dart';
 import 'package:testassignment/API/getproduct.dart';
 import 'package:testassignment/Model/productmodel.dart';
 import 'package:testassignment/Provider/addtocartfun.dart';
@@ -17,8 +19,16 @@ class ProductGrid extends ConsumerStatefulWidget {
 class _ProductGridState extends ConsumerState<ProductGrid> {
   late List<ProductoModel?> productdata;
   bool loader = true;
+
   getdata() async {
-    productdata = await getproduct();
+    final filterstr = ref.read(filterProvider);
+
+    if (filterstr == "All") {
+      productdata = await getproduct();
+    } else {
+      productdata = await getcategoryproduct(filter: filterstr);
+    }
+
     setState(() {
       loader = false;
     });
