@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:testassignment/API/getproduct.dart';
 import 'package:testassignment/Model/productmodel.dart';
+import 'package:testassignment/Provider/addtocartfun.dart';
+import 'package:testassignment/Screens/Theme/constant.dart';
 import 'package:testassignment/Screens/Theme/theme.dart';
 
-class ProductGrid extends StatefulWidget {
+class ProductGrid extends ConsumerStatefulWidget {
   const ProductGrid({super.key});
 
   @override
-  State<ProductGrid> createState() => _ProductGridState();
+  ConsumerState<ProductGrid> createState() => _ProductGridState();
 }
 
-class _ProductGridState extends State<ProductGrid> {
+class _ProductGridState extends ConsumerState<ProductGrid> {
   late List<ProductoModel?> productdata;
   bool loader = true;
   getdata() async {
@@ -50,17 +54,18 @@ class _ProductGridState extends State<ProductGrid> {
   }
 }
 
-class ProductCard extends StatefulWidget {
+class ProductCard extends ConsumerStatefulWidget {
   final ProductoModel data;
   const ProductCard({super.key, required this.data});
 
   @override
-  State<ProductCard> createState() => _ProductCardState();
+  ConsumerState<ProductCard> createState() => _ProductCardState();
 }
 
-class _ProductCardState extends State<ProductCard> {
+class _ProductCardState extends ConsumerState<ProductCard> {
   @override
   Widget build(BuildContext context) {
+    final addtocartlist = ref.watch(addtocarproductid);
     return InkWell(
       onTap: () => getproduct(),
       child: Container(
@@ -82,7 +87,7 @@ class _ProductCardState extends State<ProductCard> {
               Text(
                 // "Silicon Power 256GB SSD 3D NAND A55 SLC Cache Performance Boost SATA III 2.5",
                 widget.data.title.toString(),
-                maxLines: 2,
+                maxLines: 1,
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
               ),
               const SizedBox(
@@ -108,8 +113,54 @@ class _ProductCardState extends State<ProductCard> {
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         color: Colors.grey.shade400),
-                  )
+                  ),
                 ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: ElevatedButton(
+                    onPressed: () {
+                      if (!check(
+                          id: widget.data.id.toString(), list: addtocartlist)) {
+                        SetData().setaddtocartids(
+                            id: widget.data.id.toString(), ref: ref);
+                        Fluttertoast.showToast(
+                            msg: "Product Added succesfully",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.black,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "Already Present",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.black,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 1, color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5)),
+                        backgroundColor: Colors.white,
+                        minimumSize: Size(120, 36)),
+                    child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "ADD",
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.blueGrey),
+                        ))),
               )
             ],
           ),

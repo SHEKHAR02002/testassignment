@@ -9,10 +9,24 @@ Future<List<ProductoModel?>> getproduct() async {
 
   if (response.statusCode == 200) {
     var jsonResponse = jsonDecode(response.body);
-    List<ProductoModel> users = List<ProductoModel>.from(
+    List<ProductoModel> product = List<ProductoModel>.from(
         jsonResponse.map((x) => ProductoModel.fromJson(x)));
 
-    return users;
+    return product;
+  } else {
+    throw Exception('Failed to fetch users. Error: ${response.statusCode}');
+  }
+}
+
+Future<ProductoModel?> getsingleproduct({required String id}) async {
+  var url = Uri.parse('https://fakestoreapi.com/products/$id');
+
+  var response = await http.get(url);
+
+  if (response.statusCode == 200) {
+    var jsonResponse = jsonDecode(response.body);
+    ProductoModel product = ProductoModel.fromJson(jsonResponse);
+    return product;
   } else {
     throw Exception('Failed to fetch users. Error: ${response.statusCode}');
   }

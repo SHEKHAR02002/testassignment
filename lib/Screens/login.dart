@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:testassignment/API/login.dart';
 import 'package:testassignment/Screens/Theme/theme.dart';
 import 'package:testassignment/Screens/home.dart';
 
-class LoginScrenn extends StatefulWidget {
+class LoginScrenn extends ConsumerStatefulWidget {
   const LoginScrenn({super.key});
 
   @override
-  State<LoginScrenn> createState() => _LoginScrennState();
+  ConsumerState<LoginScrenn> createState() => _LoginScrennState();
 }
 
-class _LoginScrennState extends State<LoginScrenn> {
+class _LoginScrennState extends ConsumerState<LoginScrenn> {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
   @override
