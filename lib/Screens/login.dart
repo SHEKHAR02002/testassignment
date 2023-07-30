@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:testassignment/API/login.dart';
 import 'package:testassignment/Screens/Theme/theme.dart';
+import 'package:testassignment/Screens/home.dart';
 
 class LoginScrenn extends StatefulWidget {
   const LoginScrenn({super.key});
@@ -23,8 +24,13 @@ class _LoginScrennState extends State<LoginScrenn> {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Center(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // SvgPicture.asset("assets/login.svg"),
+              SvgPicture.asset(
+                "assets/login.svg",
+                width: width,
+                height: height / 2.2,
+              ),
               const SizedBox(
                 height: 20,
               ),
@@ -33,7 +39,7 @@ class _LoginScrennState extends State<LoginScrenn> {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
               ),
               const SizedBox(
-                height: 30,
+                height: 20,
               ),
               const Text(
                 "Enter Your Username And PassWord",
@@ -62,6 +68,7 @@ class _LoginScrennState extends State<LoginScrenn> {
               Container(
                 decoration: shadowdecoration,
                 child: TextField(
+                  obscureText: true,
                   decoration: const InputDecoration(
                     hintText: "Password",
                     contentPadding:
@@ -78,11 +85,33 @@ class _LoginScrennState extends State<LoginScrenn> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               if (username.text != "" && password.text != "") {
-                postData(username: username.text, password: password.text);
+                int responsecode = await postData(
+                    username: username.text, password: password.text);
+                if (responsecode == 200) {
+                  Fluttertoast.showToast(
+                      msg: "Login success",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.black,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                } else {
+                  Fluttertoast.showToast(
+                      msg: responsecode.toString(),
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.black,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                }
               } else {
                 Fluttertoast.showToast(
                     msg: "Fill All Fields",

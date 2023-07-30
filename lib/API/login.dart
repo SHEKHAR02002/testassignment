@@ -1,15 +1,12 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-void postData({required String username,required String password}) async {
-
+postData({required String username, required String password}) async {
   var jsonData = {
     'username': username,
     'password': password,
-
   };
   var jsonString = jsonEncode(jsonData);
-
 
   var response = await http.post(
     Uri.parse("https://fakestoreapi.com/auth/login"),
@@ -18,8 +15,8 @@ void postData({required String username,required String password}) async {
   );
 
   if (response.statusCode == 200) {
-    print('Data sent successfully!');
+    return response.statusCode;
   } else {
-    print('Failed to send data. Error: ${response.statusCode}');
+    return response.statusCode;
   }
 }

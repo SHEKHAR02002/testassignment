@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testassignment/Screens/home.dart';
 import 'package:testassignment/Screens/login.dart';
 
 void main() {
@@ -14,8 +15,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.blueGrey,
+            elevation: 0,
+          ),
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+          useMaterial3: false,
           scaffoldBackgroundColor: Colors.white),
       home: const Main(),
     );
@@ -32,6 +38,6 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
-    return const LoginScrenn();
+    return const HomeScreen();
   }
 }
