@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:skeleton_text/skeleton_text.dart';
 import 'package:testassignment/API/filterproduct.dart';
 import 'package:testassignment/API/getproduct.dart';
 import 'package:testassignment/Model/productmodel.dart';
@@ -290,11 +291,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
             const SizedBox(height: 20),
             loader
-                ? CircularProgressIndicator()
+                ? SkeletonAnimation(
+                    child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 4,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio:
+                                MediaQuery.of(context).size.width /
+                                    (MediaQuery.of(context).size.height / 1.30),
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 12,
+                            crossAxisSpacing: 12),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            color: Colors.grey.shade200,
+                            height: 200,
+                            width: width / 1.3,
+                          );
+                        }))
                 : GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    // itemCount: productdata.length,
                     itemCount:
                         _found.isEmpty ? productdata.length : _found.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -304,14 +322,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         mainAxisSpacing: 12,
                         crossAxisSpacing: 12),
                     itemBuilder: (context, index) {
-                      // var product = productdata[index];
                       var product =
                           _found.isEmpty ? productdata[index] : _found[index];
                       return ProductCard(
                         data: product!,
                       );
                     })
-            // filter == "All" ? ProductGrid() : CategoryFilter()
           ],
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skeleton_text/skeleton_text.dart';
 import 'package:testassignment/API/getproduct.dart';
 import 'package:testassignment/Model/productmodel.dart';
 import 'package:testassignment/Provider/addtocartfun.dart';
@@ -101,7 +102,66 @@ class _AddtocartCardState extends ConsumerState<AddtocartCard> {
     final loader = ref.watch(datacomeloaderProvidera);
     final addtocartlist = ref.watch(addtocarproductid);
     return loader
-        ? const CircularProgressIndicator()
+        ? SkeletonAnimation(
+            child: Column(
+              children: [
+                Container(
+                  decoration: shadowdecoration,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(children: [
+                      Container(
+                        color: Colors.grey.shade200,
+                        height: 70,
+                        width: 70,
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            color: Colors.grey.shade200,
+                            height: 20,
+                            width: 50,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            color: Colors.grey.shade200,
+                            height: 10,
+                            width: 30,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                height: 10,
+                                width: 10,
+                                color: Colors.grey.shade200,
+                              ),
+                              Container(
+                                color: Colors.grey.shade200,
+                                height: 10,
+                                width: 30,
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    ]),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                )
+              ],
+            ),
+          )
         : Column(
             children: [
               Container(
