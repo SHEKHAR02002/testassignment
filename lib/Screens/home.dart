@@ -23,7 +23,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   TextEditingController search = TextEditingController();
   final filteronofProvider = StateProvider((ref) => false);
 
-  late List<ProductoModel?> productdata;
+  List<ProductoModel?> productdata = [];
+  List<ProductoModel?> _found = [];
   bool loader = true;
 
   getdata() async {
@@ -38,6 +39,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       productdata = await getcategoryproduct(filter: filterstr);
       setState(() {
         loader = false;
+      });
+    }
+  }
+
+  void _runFilter(String enteredKeyWord) {
+    List<ProductoModel?> results = [];
+    if (enteredKeyWord.isEmpty) {
+      results = productdata;
+      setState(() {
+        _found = results;
+      });
+    } else {
+      results = productdata
+          .where((element) =>
+              element!.category!.toLowerCase().contains(enteredKeyWord))
+          .toList();
+      setState(() {
+        _found = results;
       });
     }
   }
@@ -58,7 +77,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text(
-          "",
+          "Test_Assignment",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         ),
         actions: [
@@ -95,6 +114,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   width: width / 1.3,
                   decoration: shadowdecoration,
                   child: TextField(
+                    onChanged: (value) => _runFilter(value),
                     decoration: const InputDecoration(
                       hintText: "Search",
                       contentPadding:
@@ -120,6 +140,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         children: [
                           InkWell(
                             onTap: () {
+                              setState(() {
+                                _found = [];
+                              });
                               ref.watch(filterProvider.notifier).state = 'All';
                               getdata();
                               toast(msg: "Filter By All Category");
@@ -144,6 +167,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                           InkWell(
                             onTap: () {
+                              setState(() {
+                                _found = [];
+                              });
                               ref.watch(filterProvider.notifier).state =
                                   "electronics";
                               toast(msg: "Filter By Electronic Category");
@@ -169,7 +195,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              print("come3");
+                              setState(() {
+                                _found = [];
+                              });
+
                               ref.watch(filterProvider.notifier).state =
                                   "jewelery";
                               toast(msg: "Filter By Jewelery Category");
@@ -195,7 +224,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              print("come4");
+                              setState(() {
+                                _found = [];
+                              });
                               ref.watch(filterProvider.notifier).state =
                                   "men's clothing";
                               toast(msg: "Filter By Men's Cloth Category");
@@ -221,7 +252,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              print("come6");
+                              setState(() {
+                                _found = [];
+                              });
                               ref.watch(filterProvider.notifier).state =
                                   "women's clothing";
                               toast(msg: "Filter By Womens Cloth Category");
@@ -261,7 +294,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 : GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: productdata.length,
+                    // itemCount: productdata.length,
+                    itemCount:
+                        _found.isEmpty ? productdata.length : _found.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: MediaQuery.of(context).size.width /
                             (MediaQuery.of(context).size.height / 1.30),
@@ -269,7 +304,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         mainAxisSpacing: 12,
                         crossAxisSpacing: 12),
                     itemBuilder: (context, index) {
-                      var product = productdata[index];
+                      // var product = productdata[index];
+                      var product =
+                          _found.isEmpty ? productdata[index] : _found[index];
                       return ProductCard(
                         data: product!,
                       );
