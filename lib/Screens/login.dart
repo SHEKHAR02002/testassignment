@@ -81,6 +81,13 @@ class _LoginScrennState extends ConsumerState<LoginScrenn> {
                   controller: password,
                 ),
               ),
+              SizedBox(
+                height: 30,
+              ),
+              Text(
+                "Note:For testing Username and Password is mor_2314 & 83r5^_",
+                style: TextStyle(fontSize: 10, color: Colors.grey.shade400),
+              )
             ],
           ),
         ),
@@ -127,7 +134,7 @@ class _LoginScrennState extends ConsumerState<LoginScrenn> {
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.blueGrey,
                 minimumSize: Size(width, 50)),
             child: const Text(
               "Continue",
