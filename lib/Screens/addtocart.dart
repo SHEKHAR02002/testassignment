@@ -102,111 +102,120 @@ class _AddtocartCardState extends ConsumerState<AddtocartCard> {
     final addtocartlist = ref.watch(addtocarproductid);
     return loader
         ? const CircularProgressIndicator()
-        : Container(
-            decoration: shadowdecoration,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(children: [
-                Image.network(
-                  data!.image.toString(),
-                  width: 50,
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: width / 1.5,
-                      child: Text(
-                        // "Silicon Power 256GB SSD 3D NAND A55 SLC Cache Performance Boost SATA III 2.5",
-                        data!.title.toString(),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.w400),
-                      ),
+        : Column(
+            children: [
+              Container(
+                decoration: shadowdecoration,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(children: [
+                    Image.network(
+                      data!.image.toString(),
+                      width: 50,
                     ),
                     const SizedBox(
-                      height: 10,
+                      width: 20,
                     ),
-                    Text(
-                      "₹ ${data!.price.toString()}",
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                          size: 20,
+                        SizedBox(
+                          width: width / 1.5,
+                          child: Text(
+                            // "Silicon Power 256GB SSD 3D NAND A55 SLC Cache Performance Boost SATA III 2.5",
+                            data!.title.toString(),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         Text(
-                          "${data!.rating!.rate} (${data!.rating!.count})",
+                          "₹ ${data!.price.toString()}",
                           style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey.shade400),
+                              fontSize: 14, fontWeight: FontWeight.w400),
                         ),
-                      ],
-                    ),
-                    ElevatedButton(
-                        onPressed: () async {
-                          if (check(
-                              id: data!.id.toString(), list: addtocartlist)) {
-                            final adtocartlist1 = ref.watch(addtocarproductid);
-                            adtocartlist1.remove(data!.id.toString());
-                            ref.watch(addtocarproductid.notifier).state = [
-                              ...adtocartlist1
-                            ];
-                            SharedPreferences pref =
-                                await SharedPreferences.getInstance();
-                            pref.setStringList('addtocart', adtocartlist1);
-                            Fluttertoast.showToast(
-                                msg: "Product Remove succesfully",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.black,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
-                          } else {
-                            Fluttertoast.showToast(
-                                msg: "Already Present",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.black,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    width: 1, color: Colors.blueGrey),
-                                borderRadius: BorderRadius.circular(5)),
-                            backgroundColor: Colors.white,
-                            minimumSize: Size(90, 30)),
-                        child: const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Remove",
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                              size: 20,
+                            ),
+                            Text(
+                              "${data!.rating!.rate} (${data!.rating!.count})",
                               style: TextStyle(
                                   fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.blueGrey),
-                            ))),
-                  ],
-                )
-              ]),
-            ),
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.grey.shade400),
+                            ),
+                          ],
+                        ),
+                        ElevatedButton(
+                            onPressed: () async {
+                              if (check(
+                                  id: data!.id.toString(),
+                                  list: addtocartlist)) {
+                                final adtocartlist1 =
+                                    ref.watch(addtocarproductid);
+                                adtocartlist1.remove(data!.id.toString());
+                                ref.watch(addtocarproductid.notifier).state = [
+                                  ...adtocartlist1
+                                ];
+                                SharedPreferences pref =
+                                    await SharedPreferences.getInstance();
+                                pref.setStringList('addtocart', adtocartlist1);
+                                Fluttertoast.showToast(
+                                    msg: "Product Remove succesfully",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.black,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: "Already Present",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.black,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        width: 1, color: Colors.blueGrey),
+                                    borderRadius: BorderRadius.circular(5)),
+                                backgroundColor: Colors.white,
+                                minimumSize: Size(90, 30)),
+                            child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Remove",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.blueGrey),
+                                ))),
+                      ],
+                    )
+                  ]),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              )
+            ],
           );
   }
 }

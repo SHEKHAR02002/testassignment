@@ -66,104 +66,105 @@ class _ProductCardState extends ConsumerState<ProductCard> {
   @override
   Widget build(BuildContext context) {
     final addtocartlist = ref.watch(addtocarproductid);
-    return InkWell(
-      onTap: () => getproduct(),
-      child: Container(
-        decoration: shadowdecoration,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Image.network(
-                  widget.data.image.toString(),
-                  height: 80,
+    return Container(
+      decoration: shadowdecoration,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Image.network(
+                widget.data.image.toString(),
+                height: 80,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              // "Silicon Power 256GB SSD 3D NAND A55 SLC Cache Performance Boost SATA III 2.5",
+              widget.data.title.toString(),
+              maxLines: 1,
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              "₹ ${widget.data.price.toString()}",
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                const Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                  size: 20,
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                // "Silicon Power 256GB SSD 3D NAND A55 SLC Cache Performance Boost SATA III 2.5",
-                widget.data.title.toString(),
-                maxLines: 1,
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                "₹ ${widget.data.price.toString()}",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                    size: 20,
-                  ),
-                  Text(
-                    "${widget.data.rating!.rate} (${widget.data.rating!.count})",
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey.shade400),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Center(
-                child: ElevatedButton(
-                    onPressed: () {
-                      if (!check(
-                          id: widget.data.id.toString(), list: addtocartlist)) {
-                        SetData().setaddtocartids(
-                            id: widget.data.id.toString(), ref: ref);
-                        Fluttertoast.showToast(
-                            msg: "Product Added succesfully",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.black,
-                            textColor: Colors.white,
-                            fontSize: 16.0);
-                      } else {
-                        Fluttertoast.showToast(
-                            msg: "Already Present",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.black,
-                            textColor: Colors.white,
-                            fontSize: 16.0);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 1, color: Colors.blueGrey),
-                            borderRadius: BorderRadius.circular(5)),
-                        backgroundColor: Colors.white,
-                        minimumSize: Size(120, 36)),
-                    child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          "ADD",
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.blueGrey),
-                        ))),
-              )
-            ],
-          ),
+                Text(
+                  "${widget.data.rating!.rate} (${widget.data.rating!.count})",
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey.shade400),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: ElevatedButton(
+                  onPressed: () {
+                    if (!check(
+                        id: widget.data.id.toString(), list: addtocartlist)) {
+                      SetData().setaddtocartids(
+                          id: widget.data.id.toString(), ref: ref);
+                      Fluttertoast.showToast(
+                          msg: "Product Added succesfully",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.black,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "Already Present",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.black,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 1, color: Colors.blueGrey),
+                          borderRadius: BorderRadius.circular(5)),
+                      backgroundColor: Colors.white,
+                      minimumSize: Size(120, 36)),
+                  child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        check(
+                                id: widget.data.id.toString(),
+                                list: addtocartlist)
+                            ? "Remove"
+                            : "Add",
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.blueGrey),
+                      ))),
+            )
+          ],
         ),
       ),
     );
